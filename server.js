@@ -4,6 +4,10 @@
 // init project
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer({dest:'uploads/'});
+app.use(bodyParser.json());
 
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -20,6 +24,9 @@ app.get("/dreams", function (request, response) {
   response.send(dreams);
 });
 
+app.post('/upload', upload.single('file'),function(req,res){
+    return res.json(req.file);
+});
 // could also use the POST body instead of query string: http://expressjs.com/en/api.html#req.body
 app.post("/dreams", function (request, response) {
   dreams.push(request.query.dream);
